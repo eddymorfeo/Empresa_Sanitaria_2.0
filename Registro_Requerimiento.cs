@@ -72,6 +72,7 @@ namespace Empresa_Sanitaria
 
         private void btn_guardar_Click(object sender, EventArgs e)
         {
+            //COMENTARIO
             Conexion.Conectar();
             string query = "insert into requerimiento (descripcion,requerimiento_tipo_id, usuario_id, prioridad_id, estado_id) values (@desc,@req,@usu, @prio,1)";
 
