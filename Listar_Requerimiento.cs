@@ -29,5 +29,56 @@ namespace Empresa_Sanitaria
         {
             
         }
+
+        private void cmb_requerimiento_tipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Listar_Requerimiento_Load(object sender, EventArgs e)
+        {
+            //Llenado de ComboBox Tipos de Requerimientos
+            SqlCommand query1 = new SqlCommand("select id,nombre from requerimiento_tipos", Conexion.Conectar());
+            SqlDataReader sqlDataReaderRequerimiento = query1.ExecuteReader();
+
+            while (sqlDataReaderRequerimiento.Read())
+            {
+                cmb_requerimiento_tipo.Items.Add(sqlDataReaderRequerimiento["nombre"].ToString());
+                cmb_requerimiento_tipo.DisplayMember = (sqlDataReaderRequerimiento["nombre"].ToString());
+                cmb_requerimiento_tipo.ValueMember = (sqlDataReaderRequerimiento["id"].ToString());
+            }
+
+            Conexion.Cerrar();
+
+            //Llenado de ComboBox Prioridades
+            SqlCommand query3 = new SqlCommand("select id, nombre from prioridad", Conexion.Conectar());
+            SqlDataReader sqlDataReaderPrioridad = query3.ExecuteReader();
+
+            while (sqlDataReaderPrioridad.Read())
+            {
+                cmb_prioridad.Items.Add(sqlDataReaderPrioridad["nombre"].ToString());
+                cmb_prioridad.DisplayMember = (sqlDataReaderPrioridad["nombre"].ToString());
+                cmb_prioridad.ValueMember = (sqlDataReaderPrioridad["id"].ToString());
+            }
+
+            Conexion.Cerrar();
+        }
+
+        private void btn_buscar_Click(object sender, EventArgs e)
+        {
+            string consulta = "select tr.nombre, p.nombre, r.descripcion, p.dias from requerimiento_tipos tr, prioridad p, requerimiento r where tr.id = r.requerimiento_tipo_id and p.id = r.prioridad_id";
+            SqlDataAdapter adaptador = new SqlDataAdapter(consulta,Conexion.Conectar());
+            DataTable dt = new DataTable();
+            adaptador.Fill(dt);
+            dgv_lista_requerimiento.DataSource = dt;
+            Conexion.Cerrar();
+
+            DataTable GV = new DataTable();
+            GV.Columns.AddRange(new DataColumn[]
+            {
+                new DataColumn("Tipo Requerimiento",typeof(string))
+            });             
+                
+        }
     }
 }

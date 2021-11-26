@@ -13,9 +13,16 @@ namespace Empresa_Sanitaria
     {
         public static SqlConnection Conectar()
         {
+                SqlConnection con = new SqlConnection("Server=DESKTOP-H5HPE9G; database=Empresa_Sanitaria; integrated security= true");
+                con.Open();
+                return con;     
+        }
+
+        public static SqlConnection Cerrar()
+        {
             SqlConnection con = new SqlConnection("Server=DESKTOP-H5HPE9G; database=Empresa_Sanitaria; integrated security= true");
-            con.Open();
+            con.Close();
             return con;
         }
-     }
+    }
 }

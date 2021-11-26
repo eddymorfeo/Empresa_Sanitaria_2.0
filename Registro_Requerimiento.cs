@@ -28,6 +28,7 @@ namespace Empresa_Sanitaria
             this.Dispose(false);
             Listar_Requerimiento pantalla = new Listar_Requerimiento();
             pantalla.Show();
+            Conexion.Cerrar();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -47,6 +48,7 @@ namespace Empresa_Sanitaria
                 cmb_tipo_requerimiento.DisplayMember = (sqlDataReaderRequerimiento["nombre"].ToString());
                 cmb_tipo_requerimiento.ValueMember = (sqlDataReaderRequerimiento["id"].ToString());
             }
+            Conexion.Cerrar();
 
             //Llenado de ComboBox Usuarios
             SqlCommand query2 = new SqlCommand("select id, nombre_usu from usuario", Conexion.Conectar());
@@ -58,7 +60,8 @@ namespace Empresa_Sanitaria
                 cmb_asignar.Items.Add(sqlDataReaderUsuario["nombre_usu"].ToString());
 
             }
-            
+            Conexion.Cerrar();
+
             //Llenado de ComboBox Prioridades
             SqlCommand query3 = new SqlCommand("select id, nombre from prioridad", Conexion.Conectar());
             SqlDataReader sqlDataReaderPrioridad = query3.ExecuteReader();
@@ -68,6 +71,7 @@ namespace Empresa_Sanitaria
                 cmb_prioridad.DisplayMember = (sqlDataReaderPrioridad["nombre"].ToString());
                 cmb_prioridad.ValueMember = (sqlDataReaderPrioridad["id"].ToString());
             }
+            Conexion.Cerrar();
         }
 
         private void btn_guardar_Click(object sender, EventArgs e)
@@ -75,8 +79,10 @@ namespace Empresa_Sanitaria
             //COMENTARIO
             Conexion.Conectar();
             string query = "insert into requerimiento (descripcion,requerimiento_tipo_id, usuario_id, prioridad_id, estado_id) values (@desc,@req,@usu, @prio,1)";
+            string query2 = "select dias from prioridad where id=@prio";
 
             SqlCommand comando = new SqlCommand(query, Conexion.Conectar());
+            //SqlCommand cmd = new SqlCommand(query2, Conexion.Conectar());
 
             comando.Parameters.AddWithValue("@desc", txt_descripcion.Text);
             comando.Parameters.AddWithValue("@req", requerimientoTipoId);
@@ -85,10 +91,11 @@ namespace Empresa_Sanitaria
             
             comando.ExecuteNonQuery();
             
-            MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es días");
-
-            txt_descripcion.Clear();
+            MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es días");          
             
+            txt_descripcion.Clear();       
+
+            Conexion.Cerrar();
         }
 
         private void cmb_tipo_requerimiento_SelectedIndexChanged(object sender, EventArgs e)
@@ -104,7 +111,8 @@ namespace Empresa_Sanitaria
             }
 
             this.requerimientoTipoId = id;
-            
+
+            Conexion.Cerrar();
         }
 
         private void cmb_asignar_SelectedIndexChanged(object sender, EventArgs e)
@@ -119,7 +127,8 @@ namespace Empresa_Sanitaria
             }
 
             this.usuarioId = id;
-            
+
+            Conexion.Cerrar();
         }
         
         private void cmb_prioridad_SelectedIndexChanged(object sender, EventArgs e)
@@ -135,7 +144,8 @@ namespace Empresa_Sanitaria
             }
 
             this.prioridadId = id;
-            
+
+            Conexion.Cerrar();
         }
     }
 }

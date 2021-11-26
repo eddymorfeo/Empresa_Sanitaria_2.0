@@ -76,6 +76,7 @@ namespace Empresa_Sanitaria
             this.cmb_requerimiento_tipo.Size = new System.Drawing.Size(213, 21);
             this.cmb_requerimiento_tipo.TabIndex = 3;
             this.cmb_requerimiento_tipo.Text = "Todos";
+            this.cmb_requerimiento_tipo.SelectedIndexChanged += new System.EventHandler(this.cmb_requerimiento_tipo_SelectedIndexChanged);
             // 
             // lbl_prioridad
             // 
@@ -129,6 +130,7 @@ namespace Empresa_Sanitaria
             this.btn_buscar.TabIndex = 8;
             this.btn_buscar.Text = "Buscar";
             this.btn_buscar.UseVisualStyleBackColor = true;
+            this.btn_buscar.Click += new System.EventHandler(this.btn_buscar_Click);
             // 
             // dgv_lista_requerimiento
             // 
@@ -214,6 +216,7 @@ namespace Empresa_Sanitaria
             this.Controls.Add(this.lbl_lista);
             this.Name = "Listar_Requerimiento";
             this.Text = "Listar_Requerimiento";
+            this.Load += new System.EventHandler(this.Listar_Requerimiento_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_lista_requerimiento)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
