@@ -18,8 +18,6 @@ namespace Empresa_Sanitaria
             InitializeComponent();
         }
 
-        //SqlConnection coneccion = new SqlConnection("Server=DESKTOP-H5HPE9G; database=Empresa_Sanitaria; integrated security= true");
-
         private void btn_ingresar_Click(object sender, EventArgs e)
         {
             try
@@ -47,9 +45,13 @@ namespace Empresa_Sanitaria
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }       
+            }
+            finally
+            {
+                Conexion.Cerrar();
+            }
 
-            Conexion.Cerrar();
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)

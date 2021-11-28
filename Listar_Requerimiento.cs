@@ -27,7 +27,9 @@ namespace Empresa_Sanitaria
 
         private void btn_resuelto_Click(object sender, EventArgs e)
         {
-            
+            //int poc = dgv_lista_requerimiento.CurrentRow.Index;
+            //SqlCommand query1 = new SqlCommand("update requerimiento set estado_id=2 where estado_id=('" + dgv_lista_requerimiento.Text +"')", Conexion.Conectar());
+            //SqlDataReader sqlDataReaderRequerimiento = query1.ExecuteReader();
         }
 
         private void cmb_requerimiento_tipo_SelectedIndexChanged(object sender, EventArgs e)
@@ -35,7 +37,7 @@ namespace Empresa_Sanitaria
 
         }
 
-        private void Listar_Requerimiento_Load(object sender, EventArgs e)
+        private void LlenarTipoRequerimiento()
         {
             //Llenado de ComboBox Tipos de Requerimientos
             SqlCommand query1 = new SqlCommand("select id,nombre from requerimiento_tipos", Conexion.Conectar());
@@ -50,9 +52,13 @@ namespace Empresa_Sanitaria
 
             Conexion.Cerrar();
 
-            //Llenado de ComboBox Prioridades
-            SqlCommand query3 = new SqlCommand("select id, nombre from prioridad", Conexion.Conectar());
-            SqlDataReader sqlDataReaderPrioridad = query3.ExecuteReader();
+        }
+
+        private void LlenarPrioridad()
+        {
+            //Llenado de ComboBox Prioridad
+            SqlCommand query1 = new SqlCommand("select id,nombre from prioridad", Conexion.Conectar());
+            SqlDataReader sqlDataReaderPrioridad = query1.ExecuteReader();
 
             while (sqlDataReaderPrioridad.Read())
             {
@@ -64,21 +70,79 @@ namespace Empresa_Sanitaria
             Conexion.Cerrar();
         }
 
-        private void btn_buscar_Click(object sender, EventArgs e)
+        private void LlenarGrid()
         {
-            string consulta = "select tr.nombre, p.nombre, r.descripcion, p.dias from requerimiento_tipos tr, prioridad p, requerimiento r where tr.id = r.requerimiento_tipo_id and p.id = r.prioridad_id";
-            SqlDataAdapter adaptador = new SqlDataAdapter(consulta,Conexion.Conectar());
+            string consulta = "select tr.nombre as 'Tipo Requerimiento', p.nombre as 'Prioridad', r.descripcion as 'Descripción', p.dias as 'Días Plazo' from requerimiento_tipos tr, prioridad p, requerimiento r, usuario u where tr.id = r.requerimiento_tipo_id and p.id = r.prioridad_id and u.id=1";
+            SqlDataAdapter adaptador = new SqlDataAdapter(consulta, Conexion.Conectar());
+            DataTable dt = new DataTable();
+            adaptador.Fill(dt);
+            dgv_lista_requerimiento.DataSource = dt;
+            dgv_lista_requerimiento.Columns[0].Width = 250;
+            Conexion.Cerrar();
+        }
+
+        private void FiltrarRequerimiento()
+        {
+            string consulta = "select tr.nombre as 'Tipo Requerimiento', p.nombre as 'Prioridad', r.descripcion as 'Descripción', p.dias as 'Días Plazo' from requerimiento_tipos tr, prioridad p, requerimiento r, usuario u where tr.id = r.requerimiento_tipo_id and p.id = r.prioridad_id and u.id=1 and tr.nombre like ('" + cmb_requerimiento_tipo.Text + "%')";
+            SqlDataAdapter adaptador = new SqlDataAdapter(consulta, Conexion.Conectar());
             DataTable dt = new DataTable();
             adaptador.Fill(dt);
             dgv_lista_requerimiento.DataSource = dt;
             Conexion.Cerrar();
+        }
 
-            DataTable GV = new DataTable();
-            GV.Columns.AddRange(new DataColumn[]
+        private void FiltrarPrioridad()
+        {
+            string consulta = "select tr.nombre as 'Tipo Requerimiento', p.nombre as 'Prioridad', r.descripcion as 'Descripción', p.dias as 'Días Plazo' from requerimiento_tipos tr, prioridad p, requerimiento r, usuario u where tr.id = r.requerimiento_tipo_id and p.id = r.prioridad_id and u.id=1 and p.nombre like ('" + cmb_prioridad.Text + "%')";
+            SqlDataAdapter adaptador = new SqlDataAdapter(consulta, Conexion.Conectar());
+            DataTable dt = new DataTable();
+            adaptador.Fill(dt);
+            dgv_lista_requerimiento.DataSource = dt;
+            Conexion.Cerrar();
+        }
+
+        private void Listar_Requerimiento_Load(object sender, EventArgs e)
+        {
+            LlenarTipoRequerimiento();
+            LlenarPrioridad();
+            LlenarGrid();
+        }
+
+        private void btn_buscar_Click(object sender, EventArgs e)
+        {
+            FiltrarRequerimiento();
+            FiltrarPrioridad();
+
+            if (chk_pendiente.Checked==true)
             {
-                new DataColumn("Tipo Requerimiento",typeof(string))
-            });             
-                
+                string consulta = "select tr.nombre as 'Tipo Requerimiento', p.nombre as 'Prioridad', r.descripcion as 'Descripción', p.dias as 'Días Plazo' from requerimiento_tipos tr, prioridad p, requerimiento r, usuario u where tr.id = r.requerimiento_tipo_id and p.id = r.prioridad_id and u.id=1 and r.estado_id=1";
+                SqlDataAdapter adaptador = new SqlDataAdapter(consulta, Conexion.Conectar());
+                DataTable dt = new DataTable();
+                adaptador.Fill(dt);
+                dgv_lista_requerimiento.DataSource = dt;
+                Conexion.Cerrar();
+            }
+
+            if (chk_resuelto.Checked == true)
+            {
+                string consulta = "select tr.nombre as 'Tipo Requerimiento', p.nombre as 'Prioridad', r.descripcion as 'Descripción', p.dias as 'Días Plazo' from requerimiento_tipos tr, prioridad p, requerimiento r, usuario u where tr.id = r.requerimiento_tipo_id and p.id = r.prioridad_id and u.id=1 and r.estado_id=2";
+                SqlDataAdapter adaptador = new SqlDataAdapter(consulta, Conexion.Conectar());
+                DataTable dt = new DataTable();
+                adaptador.Fill(dt);
+                dgv_lista_requerimiento.DataSource = dt;
+                Conexion.Cerrar();
+            }            
+        }
+
+        private void dgv_lista_requerimiento_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+                        
+        }
+
+        private void btn_eliminar_Click(object sender, EventArgs e)
+        {
+            int poc = dgv_lista_requerimiento.CurrentRow.Index;
+            dgv_lista_requerimiento.Rows.RemoveAt(poc);
         }
     }
 }

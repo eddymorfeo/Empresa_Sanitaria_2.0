@@ -38,10 +38,6 @@ namespace Empresa_Sanitaria
             this.chk_resuelto = new System.Windows.Forms.CheckBox();
             this.btn_buscar = new System.Windows.Forms.Button();
             this.dgv_lista_requerimiento = new System.Windows.Forms.DataGridView();
-            this.tipo_requerimiento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prioridad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dias_plazo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btn_resuelto = new System.Windows.Forms.Button();
             this.btn_eliminar = new System.Windows.Forms.Button();
             this.btn_atras = new System.Windows.Forms.Button();
@@ -134,36 +130,14 @@ namespace Empresa_Sanitaria
             // 
             // dgv_lista_requerimiento
             // 
+            this.dgv_lista_requerimiento.AllowUserToAddRows = false;
             this.dgv_lista_requerimiento.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_lista_requerimiento.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.tipo_requerimiento,
-            this.prioridad,
-            this.descripcion,
-            this.dias_plazo});
             this.dgv_lista_requerimiento.Location = new System.Drawing.Point(127, 203);
             this.dgv_lista_requerimiento.Name = "dgv_lista_requerimiento";
-            this.dgv_lista_requerimiento.Size = new System.Drawing.Size(571, 150);
+            this.dgv_lista_requerimiento.RowTemplate.ReadOnly = true;
+            this.dgv_lista_requerimiento.Size = new System.Drawing.Size(581, 150);
             this.dgv_lista_requerimiento.TabIndex = 9;
-            // 
-            // tipo_requerimiento
-            // 
-            this.tipo_requerimiento.HeaderText = "Tipo Requerimiento";
-            this.tipo_requerimiento.Name = "tipo_requerimiento";
-            // 
-            // prioridad
-            // 
-            this.prioridad.HeaderText = "Prioridad";
-            this.prioridad.Name = "prioridad";
-            // 
-            // descripcion
-            // 
-            this.descripcion.HeaderText = "Descripción";
-            this.descripcion.Name = "descripcion";
-            // 
-            // dias_plazo
-            // 
-            this.dias_plazo.HeaderText = "Días Plazo";
-            this.dias_plazo.Name = "dias_plazo";
+            this.dgv_lista_requerimiento.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_lista_requerimiento_CellContentClick);
             // 
             // btn_resuelto
             // 
@@ -185,6 +159,7 @@ namespace Empresa_Sanitaria
             this.btn_eliminar.TabIndex = 11;
             this.btn_eliminar.Text = "Eliminar";
             this.btn_eliminar.UseVisualStyleBackColor = true;
+            this.btn_eliminar.Click += new System.EventHandler(this.btn_eliminar_Click);
             // 
             // btn_atras
             // 
@@ -234,10 +209,6 @@ namespace Empresa_Sanitaria
         private System.Windows.Forms.CheckBox chk_resuelto;
         private System.Windows.Forms.Button btn_buscar;
         private System.Windows.Forms.DataGridView dgv_lista_requerimiento;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tipo_requerimiento;
-        private System.Windows.Forms.DataGridViewTextBoxColumn prioridad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn descripcion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dias_plazo;
         private System.Windows.Forms.Button btn_resuelto;
         private System.Windows.Forms.Button btn_eliminar;
         private System.Windows.Forms.Button btn_atras;
