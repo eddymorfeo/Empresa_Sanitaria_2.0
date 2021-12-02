@@ -91,9 +91,12 @@ namespace Empresa_Sanitaria
             
             comando.ExecuteNonQuery();
             
-            MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es días");          
-            
-            txt_descripcion.Clear();       
+            MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es días");
+
+            cmb_asignar.Text = "Seleccionar";
+            cmb_tipo_requerimiento.Text = "Seleccionar";
+            txt_descripcion.Text = "";
+            cmb_prioridad.Text = "Seleccionar";
 
             Conexion.Cerrar();
         }
@@ -146,6 +149,14 @@ namespace Empresa_Sanitaria
             this.prioridadId = id;
 
             Conexion.Cerrar();
+        }
+
+        private void btn_limpiar_Click(object sender, EventArgs e)
+        {
+            cmb_asignar.Text = "Seleccionar";
+            cmb_tipo_requerimiento.Text = "Seleccionar";
+            txt_descripcion.Text = "";
+            cmb_prioridad.Text = "Seleccionar";
         }
     }
 }
