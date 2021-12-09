@@ -91,7 +91,26 @@ namespace Empresa_Sanitaria
             
             comando.ExecuteNonQuery();
             
-            MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es días");
+            //MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es días");
+
+            if (cmb_prioridad.Text=="Prioridad Alta")
+            {
+                MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es de 3 días");
+            }
+            else
+            {
+                if (cmb_prioridad.Text == "Prioridad Media")
+                {
+                    MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es de 4 días");
+                }
+                else
+                {
+                    if (cmb_prioridad.Text == "Prioridad Baja")
+                    {
+                        MessageBox.Show("El requerimiento fue ingresado, el plazo para resolverlo es de 5 días");
+                    }
+                }
+            }
 
             cmb_asignar.Text = "Seleccionar";
             cmb_tipo_requerimiento.Text = "Seleccionar";

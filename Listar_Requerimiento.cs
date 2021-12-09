@@ -131,7 +131,10 @@ namespace Empresa_Sanitaria
                 adaptador.Fill(dt);
                 dgv_lista_requerimiento.DataSource = dt;
                 Conexion.Cerrar();
-            }            
+            }
+
+            cmb_requerimiento_tipo.Text = "Seleccionar";
+            cmb_prioridad.Text = "Selccionar";
         }
 
         private void dgv_lista_requerimiento_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -141,7 +144,8 @@ namespace Empresa_Sanitaria
 
         private void btn_eliminar_Click(object sender, EventArgs e)
         {
-            int poc = dgv_lista_requerimiento.CurrentRow.Index;
+            Conexion.Conectar();
+            int poc = dgv_lista_requerimiento.CurrentRow.Index;            
             dgv_lista_requerimiento.Rows.RemoveAt(poc);
         }
     }
